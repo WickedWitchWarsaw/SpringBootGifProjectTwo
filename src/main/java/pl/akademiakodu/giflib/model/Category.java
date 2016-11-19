@@ -1,13 +1,24 @@
 package pl.akademiakodu.giflib.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javafx.scene.input.KeyCode.O;
+
+@Entity
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String colorCode;
+
+    @OneToMany(mappedBy = "category")
     private List<Gif> gifs = new ArrayList<>();
+
+
 
     public Category(){}
 

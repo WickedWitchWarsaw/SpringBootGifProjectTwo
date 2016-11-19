@@ -1,5 +1,8 @@
 package pl.akademiakodu.giflib.web.controller;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.akademiakodu.giflib.model.Category;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,14 +16,25 @@ import java.util.List;
 @Controller
 public class CategoryController {
 
+
+    //INSERT INTO category (name, colorcode) VALUES ('Technology', '#59b3b3')
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
     // Index of all categories
     @RequestMapping("/categories")
+    @SuppressWarnings("unchecked")
     public String listCategories(Model model) {
-        // TODO: Get all categories
-        List<Category> categories = new ArrayList<>();
 
-        model.addAttribute("categories",categories);
-        return "category/index";
+        try(Session session = sessionFactory.openSession()){
+            List<Category> categories = session.createCriteria(Category.class).list();
+            model.addAttribute("categories",categories);
+            return "category/index";
+
+        }
+
+
     }
 
     // Single category page

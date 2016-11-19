@@ -22,12 +22,15 @@ public class DataConfig {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean
     public LocalSessionFactoryBean sessionFactory(){
         Resource config = new ClassPathResource("hibernate.cfg.xml");
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setConfigLocation(config);
-        factoryBean.setDataSource(dataSource());
+        factoryBean.setDataSource(dataSource);
         factoryBean.setPackagesToScan(environment.getProperty("giflib.entity.package"));
         return factoryBean;
     }
